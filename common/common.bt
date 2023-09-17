@@ -1,0 +1,29 @@
+typedef struct{
+    uint32 magic;
+    uint32 padding[3];
+    uint32 num_structs;
+    uint32 struct_size;
+    uint32 string_start;
+    uint32 struct_start;
+}generic_header;
+
+typedef struct{
+    while (true)  {
+        struct Tstring{
+            local uint mpointer = FTell() - strings;
+            string mstring;
+        }tstring<name=mstring, comment = mpointer>;
+        if ( FTell() + 1 >= FileSize() )
+        break;
+    }
+}stringdata<name="String Data">;
+
+typedef struct(uint32 spointer){
+    local int cur_pos = 0;
+    ushort string_pointer;
+    cur_pos = FTell();
+    FSeek(spointer + string_pointer);
+    string string_name;
+    FSeek(cur_pos);
+    ushort unk;
+}namepointer;

@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor Binary Template
+//
+//      File: xx.tbl (FFX2)
+//   Authors: HeartlessSeph
+//   Version: 1.0
+//  Category: English
+//------------------------------------------------
+
+local int x = 0;
+
+struct Header{
+    ushort num_entries;
+}header;
+
+struct Mdl_Entries{
+    for (x = 0; x < header.num_entries; x++)
+    ushort model_folder;
+}mdl_entries;

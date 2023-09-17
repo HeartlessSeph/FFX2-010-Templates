@@ -1,0 +1,49 @@
+//------------------------------------------------
+//--- 010 Editor Binary Template
+//
+//      File: ply_save.bin (FFX2)
+//   Authors: HeartlessSeph
+//   Version: 1.0
+//  Category: English
+//------------------------------------------------
+
+#include "common/common.bt"
+#include "common/btl_structs.bt"
+
+typedef struct{
+    namepointer	name(strings)<name=string_name>;
+    status_change_int stat_bonus<name="Stat Bonus">;
+	uint	exp;
+	uint	next_exp;
+	uint	hp;
+	uint	mp;
+	uint	hp_max;
+	uint	mp_max;
+	uchar	party;
+    status_change_8 stats<name="Stats">;
+	uchar	reserve;
+	ushort	job<format=hex>;
+	ushort	plate;
+	ushort	accessory[2]<format=hex>;
+	ushort	command;
+	uint	escape_count;
+	uint	kill_count;
+	uint	death_count;
+	int		char_status;
+	ability_type ability_types;
+	ushort	before_job;
+    uchar padding[0x28];
+}btl_ply_sav;
+
+struct File{
+    generic_header header<name="Header">;
+    local int strings<hidden=true> = header.string_start + header.struct_start;
+    local int x<hidden=true> = 0;
+    struct CharacterData{
+        for (x = 0; x <= header.num_structs; x++)
+        btl_ply_sav chara<name=name.string_name,comment=help.string_name>;
+    }itemdata<name="Character Data">;
+
+    FSeek(strings);
+    stringdata StringData;
+}file<name="Character Info", bgcolor=cLtRed>;

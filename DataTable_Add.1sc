@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Script File
+//
+//      File: FFX2 Generic Table Addendum
+//   Authors: HeartlessSeph
+//   Version: 1.0
+//  Category: English
+//  Purpose: Add a new entry to a FFX2 DataTable file
+//------------------------------------------------
+
+int struct_size = file.header.struct_size;
+int string_start = file.header.string_start;
+int num_structs = file.header.num_structs;
+
+InsertBytes(string_start, struct_size);
+
+file.header.string_start = string_start + struct_size;
+file.header.num_structs = num_structs + 1;

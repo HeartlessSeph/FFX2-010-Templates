@@ -1,0 +1,71 @@
+//------------------------------------------------
+//--- 010 Editor Binary Template
+//
+//      File: item.bin (FFX2)
+//   Authors: HeartlessSeph
+//   Version: 1.0
+//  Category: English
+//------------------------------------------------
+#include "common/btl_structs.bt"
+#include "common/common.bt"
+#include "common/ability_names.bt"
+
+typedef struct
+{
+    namepointer	name(strings)<name=string_name>;
+    namepointer	help(strings)<name=string_name>;
+	short	effect[2]<name="Animation & Visual Effects">;
+	uchar	process;
+	uchar	sub_command;
+	uchar	system;
+	uchar	flow_system;
+    com_cursor cursor;
+	com_exp_data exp_data;
+    uint	reserve5;
+    com_dmg_data dmg_data;
+    com_sub_window sub_window;
+	ushort	atb_cost;
+	ushort	chant_cost;
+	uchar	mp<name="MP Cost">;
+	uchar	target;
+	uchar	calc_ps;
+	uchar	critical;
+	uchar	hit;
+	uchar	power;
+	uchar	atc_num;
+	uchar	atc_stone;
+    element atc_element<name="Attack Element">;
+    atc_statuses atc_status<name="Attack Status Effects">;
+    stat_per2 status_time<name="Status Times">;
+	ubyte	icon<name="Icon">;
+    kille_monster monster_killer<name="Monster Effectiveness">;
+	uchar	magic_cancel;
+	uchar	reserve1;
+    uint paddingmaybe;
+	ushort	blue_magic;
+	ushort	reserve2;
+	uchar	seq;
+	uchar	get_ap;
+	uchar	item_element;
+	uchar	item_level;
+	uint	price;
+    struct Feeding_Data{
+        uchar feed_unk;
+        uchar num_to_feed<name="Number to Feed">;
+        Ability_Name abi_teach<format=hex, name="Taught Ability">;
+        status_change_int feed_up_status<name="Stat Modifiers">;
+    }feeding_data<name="Feed Data">;
+}	btl_item;
+
+struct File{
+    generic_header header<name="Header">;
+    local int strings<hidden=true> = header.string_start + header.struct_start;
+    local int x<hidden=true> = 0;
+    struct ItemData{
+        for (x = 0; x <= header.num_structs; x++)
+        btl_item battleitem<name=name.string_name,comment=help.string_name>;
+    }itemdata<name="Item Data">;
+
+    FSeek(strings);
+    stringdata StringData;
+}file<name="Item Data", bgcolor=cLtRed>;

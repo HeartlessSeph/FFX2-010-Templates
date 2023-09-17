@@ -1,0 +1,66 @@
+//------------------------------------------------
+//--- 010 Editor Binary Template
+//
+//      File: command.bin (FFX2)
+//   Authors: HeartlessSeph
+//   Version: 1.0
+//  Category: English
+//------------------------------------------------
+
+#include "/common/btl_structs.bt"
+#include "/common/common.bt"
+#include "common/ability_names.bt"
+
+typedef struct {//Struct source based on OG FFX-2. Reserve data may be in use now. 
+    namepointer	name(strings)<name=string_name>;
+    namepointer	help(strings)<name=string_name>;
+	short	effect[2]<name="Animation & Visual Effects">;
+	ubyte	process;
+	ubyte	sub_command;
+	ubyte	system;
+	ubyte	flow_system;
+    com_cursor cursor;
+	com_exp_data exp_data;
+    uint	reserve5;
+    com_dmg_data dmg_data;//Confirmed as correct placement.
+	com_sub_window sub_window;
+	ushort	atb_cost;
+	ushort	chant_cost;
+	ubyte	mp<name="MP Cost">;
+	ubyte	target;
+	ubyte	calc_ps;
+	ubyte	critical;
+	ubyte	hit;
+	ubyte	power;
+	ubyte	atc_num<name="Number of Attacks">;
+	ubyte	atc_stone;
+    element atc_element<name="Attack Element">;
+    atc_statuses atc_status<name="Attack Status Effects">;
+    stat_per2 status_time<name="Status Times">;
+	ubyte	icon<name="Icon">;
+    kille_monster monster_killer<name="Monster Effectiveness">;
+	ubyte	magic_cancel;
+	ubyte	reserve1;
+	ushort	blue_magic;
+	ushort	reserve2;
+	ubyte	btl_seq;
+	ubyte	get_ap;
+	ushort	ap;
+	ushort	use_job;
+	ushort	reserve4;
+    ushort	command_class<name="Command Class?",comment="Not sure if this matters for anything or not", format=hex>;
+    ushort reserve6;
+} btlcommand <optimize=false>;
+
+struct File{
+    generic_header header<name="Header">;
+    local int strings<hidden=true> = header.string_start + header.struct_start;
+    local int x<hidden=true> = 0;
+    struct CommandData{
+        for (x = 0; x <= header.num_structs; x++)
+        btlcommand battlecommand<name=name.string_name,comment=help.string_name>;
+    }commanddata<name="Command Data">;
+
+    FSeek(strings);
+    stringdata StringData;
+}file<name="Battle Commands", bgcolor=cLtRed>;

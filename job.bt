@@ -1,0 +1,67 @@
+//------------------------------------------------
+//--- 010 Editor Binary Template
+//
+//      File: job.bin (FFX2)
+//   Authors: HeartlessSeph
+//   Version: 1.0
+//  Category: English
+//------------------------------------------------
+#include "common/btl_structs.bt"
+#include "common/common.bt"
+#include "common/ability_names.bt"
+
+typedef struct{
+    Ability_Name req_ability<name="Ability Required to Unlock",format=hex>;
+    Ability_Name ability<name="Ability",format=hex>;
+}abilitydata;
+
+typedef struct{
+	actorRef weapon_model;
+	ushort weapon_position;
+}weapon_data;
+
+typedef struct{
+    weapon_data weapon_1<name="Weapon 1">;
+    weapon_data weapon_2<name="Weapon 2">;
+    weapon_data weapon_3<name="Weapon 3">;
+    weapon_data weapon_4<name="Weapon 4">;
+}weapon;
+
+typedef struct
+{
+    namepointer	name(strings)<name=string_name>;
+    namepointer	help(strings)<name=string_name>;
+	uchar	user; //0x9
+	uchar	data; //0xA
+	uchar	seq; //0xB
+	uchar	icon; //0xC
+	Ability_Name basaku<name="Berserk Action?",format=hex>; //0xE
+    stat_grow job_growth<name="Job Stat Growth">;
+    abilitydata ability[16]<name="Dressphere Abilities">; //0x7C
+    weapon weapon_yuna<name="Yuna Weapons">;
+    weapon weapon_rikku<name="Rikku Weapons">;
+    weapon weapon_paine<name="Paine Weapons">;
+	struct Creature_Data {
+		namepointer	monhelp(strings)<name=string_name>;
+		ushort creature_ability_prerequisite;
+		Ability_Name creature_ability<name="Creature Ability", format=hex>;
+		ushort creature_auto_ability_prerequisite;
+		Ability_Name creature_auto_ability<name="Creature Auto-Ability", format=hex>;
+		char unknown_data[0x10];
+        status_change unknown_data2;
+        char unknown_data3[0x12];
+	}creature_data<name="Creature Information">;
+}	btl_job; //Struct doesn't seem to match actual size?
+
+struct File{
+    generic_header header<name="Header">;
+    local int strings<hidden=true> = header.string_start + header.struct_start;
+    local int x<hidden=true> = 0;
+    struct JobData{
+        for (x = 0; x <= header.num_structs; x++)
+        btl_job job<name=name.string_name,comment=help.string_name>;
+    }jobdata<name="Dressphere Data">;
+
+    FSeek(strings);
+    stringdata StringData;
+}file<name="Dresspheres", bgcolor=cLtRed>;

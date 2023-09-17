@@ -1,0 +1,54 @@
+//------------------------------------------------
+//--- 010 Editor Binary Template
+//
+//      File: plate.bin (FFX2)
+//   Authors: HeartlessSeph
+//   Version: 1.0
+//  Category: English
+//------------------------------------------------
+#include "common/common.bt"
+#include "common/btl_structs.bt"
+#include "common/ability_names.bt"
+
+
+typedef struct {
+    ushort ability_learn_type;
+    Ability_Name ability_id<format=hex>;
+}plate_ability;
+
+
+
+typedef struct {
+    namepointer	name(strings)<name=string_name>;
+    namepointer	help(strings)<name=string_name>;
+    namepointer	message1(strings)<name=string_name>;
+    namepointer	message2(strings)<name=string_name>;
+    namepointer	message3(strings)<name=string_name>;
+    namepointer	message4(strings)<name=string_name>;
+	ushort	bonus;
+	uchar	icon;
+    status_change	up_status;
+	uchar	reserve;
+	uchar	reserve2;
+	uchar	reserve3;
+	plate_ability skill[8];
+
+	namepointer	mon_help(strings)<name=string_name>;
+    plate_ability mon_skill[2];
+    uint32 unk_int[6];
+	uchar   unk[8];
+    status_change mon_up_status;
+    char mon_reserve[2];
+}plate_bin_struct;
+
+struct File{
+    generic_header header<name="Header">;
+    local int strings<hidden=true> = header.string_start + header.struct_start;
+    local int x<hidden=true> = 0;
+    struct PlateData{
+        for (x = 0; x <= header.num_structs; x++)
+        plate_bin_struct mon_data<name=name.string_name,comment=help.string_name>;
+    }platedata<name="Garment Grid Data">;
+    FSeek(strings);
+    stringdata StringData;
+}file<name="Garment Grids", bgcolor=cLtRed>;

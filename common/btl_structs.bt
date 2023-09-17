@@ -1,0 +1,382 @@
+typedef struct {
+    ubyte stat_per_death;
+    ubyte stat_per_stone;
+    ubyte stat_per_sleep;
+    ubyte stat_per_silence;
+    ubyte stat_per_dark;
+    ubyte stat_per_poison;
+    ubyte stat_per_confusion;
+    ubyte stat_per_berserk;
+    ubyte stat_per_curse;
+    ubyte stat_per_defense;
+    ubyte stat_per_blow;
+    ubyte stat_per_hp_double;
+    ubyte stat_per_mp_double;
+    ubyte stat_per_use_mp0;
+    ubyte stat_per_damage9999;
+    ubyte stat_per_abs_critical;
+    ubyte stat_per_exp0;
+    ubyte stat_per_change_cloth;
+    ubyte stat_per_relife;
+    ubyte stat_per_unused1;
+    ubyte stat_per_unused2;
+    ubyte stat_per_unused3;
+    ubyte stat_per_unused4;
+    ubyte stat_per_unused5;
+}stat_per1;
+
+typedef struct{
+    byte stat_per_shell;
+    byte stat_per_protess;
+    byte stat_per_reflect;
+    byte stat_per_regen;
+    byte stat_per_haste;
+    byte stat_per_slow;
+    byte stat_per_stop;
+    byte stat_per_str;
+    byte stat_per_mag;
+    byte stat_per_vit;
+    byte stat_per_spt;
+    byte stat_per_hit;
+    byte stat_per_avoid;
+    byte stat_per_luck;
+    byte stat_per_death_sentence;
+    byte stat_per_invincible_physic;
+    byte stat_per_invincible_magic;
+    byte stat_per_invincible;
+    byte stat_per_unused6;
+    byte stat_per_unused7;
+    byte stat_per_unused8;
+    byte stat_per_unused9;
+    byte stat_per_unused10;
+    byte stat_per_unused11;
+}stat_per2;
+
+typedef struct{
+	//int auto_status;
+    uint stat_death: 1;
+    uint stat_stone: 1;
+    uint stat_sleep: 1;
+    uint stat_silence: 1;
+    uint stat_dark: 1;
+    uint stat_poison: 1;
+    uint stat_confusion: 1;
+    uint stat_berserk: 1;
+    uint stat_curse: 1;
+    uint stat_defense: 1;
+    uint stat_blow: 1;
+    uint stat_hp_double: 1;
+    uint stat_mp_double: 1;
+    uint stat_use_mp0: 1;
+    uint stat_damage9999: 1;
+    uint stat_abs_critical: 1;
+    uint stat_exp0: 1;
+    uint stat_change_cloth: 1;
+    uint stat_relife: 1;
+    uint stat_roulette_cursor: 1;
+    uint stat_unused1: 1;
+    uint stat_unused2: 1;
+    uint stat_unused3: 1;
+    uint stat_unused4: 1;
+    uint stat_unused5: 1;
+    uint stat_unused6: 1;
+    uint stat_unused7: 1;
+    uint stat_unused8: 1;
+    uint stat_unused9: 1;
+    uint stat_unused10: 1;
+    uint stat_unused11: 1;
+    uint stat_unused12: 1;
+}auto_status_1;
+
+typedef struct{
+	//int auto_status2;
+    uint stat_shell: 1;
+    uint stat_protess: 1;
+    uint stat_reflect: 1;
+    uint stat_regen: 1;
+    uint stat_haste: 1;
+    uint stat_slow: 1;
+    uint stat_stop: 1;
+    uint stat_str: 1;
+    uint stat_mag: 1;
+    uint stat_vit: 1;
+    uint stat_spt: 1;
+    uint stat_hit: 1;
+    uint stat_avoid: 1;
+    uint stat_luck: 1;
+    uint stat_death_sentence: 1;
+    uint stat_invincible_physic: 1;
+    uint stat_invincible_magic: 1;
+    uint stat_invincible: 1;
+    uint stat_unused13: 1;
+    uint stat_unused14: 1;
+    uint stat_unused15: 1;
+    uint stat_unused16: 1;
+    uint stat_unused17: 1;
+    uint stat_unused18: 1;
+    uint stat_unused19: 1;
+    uint stat_unused20: 1;
+    uint stat_unused21: 1;
+    uint stat_unused22: 1;
+    uint stat_unused23: 1;
+    uint stat_unused24: 1;
+    uint stat_unused25: 1;
+    uint stat_unused26: 1;
+}auto_status_2;
+
+typedef struct{
+    //uchar	atc_status[24];
+    //char	atc_status2[24];
+    stat_per1 atc_status;
+    stat_per2 atc_status2;
+}atc_statuses<name="Attack Status Effects">;
+
+typedef struct{
+	//uchar	def_status[24];
+	//uchar	def_status2[24];
+    stat_per1 def_status;
+    stat_per2 def_status2;
+}def_statuses<name="Defense Status Effects">;	
+
+typedef struct{
+	//int		auto_status;
+	//int		auto_status2;
+    auto_status_1 auto_status;
+    auto_status_2 auto_status2;
+}auto_statuses<name="Auto Status Effects">;
+
+typedef struct{
+    //ushort	ability_type[3];
+    ushort ability_lead: 1<name="Full ATB",comment="Always start battle with ATB Gauge filled">;
+    ushort ability_first: 1<name="Initiative Effect",comment="Raises chance of pre-emptive strike">;
+    ushort ability_counter: 1<name="Counterattack">;
+    ushort ability_counter2: 1<name="Evade and Counter">;
+    ushort ability_magic_counter: 1<name="Magic Counter">;
+    ushort ability_booster: 1<name="Magic Booster Effect",comment="Magic Damage * 1.5, MP Cost Doubled">;
+    ushort ability_more_encount: 1<name="More Encounters">;
+    ushort ability_magic: 1;
+    ushort ability_medicine: 1<name="Healing Item Potency Doubled">;
+    ushort ability_element_master: 1<name="Elemental Item Damage Doubled">;
+    ushort ability_non_element_master: 1<name="Non-Elemental Item Damage Doubled">;
+    ushort ability_status_master: 1;
+    ushort ability_ap_double: 1<name="Double AP">;
+    ushort ability_ap_triple: 1<name= "Triple AP">;
+    ushort ability_hp_toppa: 1<name="Break HP Limit">;
+    ushort ability_mp_toppa: 1<name="Break MP Limit">;
+    ushort ability_dmg_toppa: 1<name="Break Damage Limit">;
+    ushort ability_rareitem_only: 1<name="Only Rare Items Drop">;
+    ushort ability_drain_sword: 1;
+    ushort ability_aspil_sword: 1;
+    ushort ability_gill_double: 1<name="Double Gil">;
+    ushort ability_item_double: 1<name="Double Items">;
+    ushort ability_exp_double: 1<name="Double EXP">;
+    ushort ability_auto_hp: 1;
+    ushort ability_auto_mp: 1;
+    ushort ability_probability_up: 1<name="Item Drop Probability Up (Item Hunter)">;
+    ushort ability_reflect_pierce: 1<name="Reflect Pierce">;
+    ushort ability_hp_recover: 1<name="HP Stroll">;
+    ushort ability_mp_recover: 1<name="MP Stroll">;
+    ushort ability_nonencount: 1<name="No Encounters">;
+    ushort ability_shoot_lv2: 1<name="Trigger Happy Level 2">;
+    ushort ability_shoot_lv3: 1<name="Trigger Happy Level 3">;
+    ushort ability_libra_lv2: 1<name="Scan Level 2">;
+    ushort ability_libra_lv3: 1<name="Scan Level 3">;
+    ushort ability_mp_half: 1<name="Half MP Cost">;
+    ushort ability_mp_1: 1<name="One MP Cost">;
+    ushort ability_unused_1: 1;
+    ushort ability_unused_2: 1;
+    ushort ability_unused_3: 1;
+    ushort ability_unused_4: 1;
+    ushort ability_unused_5: 1;
+    ushort ability_unused_6: 1;
+    ushort ability_unused_7: 1;
+    ushort ability_unused_8: 1;
+    ushort ability_unused_9: 1;
+    ushort ability_unused_10: 1;
+    ushort ability_unused_11: 1;
+    ushort ability_unused_12: 1;
+}ability_type;
+
+typedef struct{
+    char hp<name = "HP">;
+    char mp<name = "MP">;
+    char strength<name = "Strength">;
+    char defense<name = "Defense">;
+    char magic<name = "Magic">;
+    char spirit<name = "Magic Defense">;
+    char agility<name = "Agility">;
+    char evasion<name = "Evasion">;
+    char accuracy<name = "Accuracy">;
+    char luck<name = "Luck">;
+}status_change;
+
+typedef struct{
+    char strength<name = "Strength">;
+    char defense<name = "Defense">;
+    char magic<name = "Magic">;
+    char spirit<name = "Magic Defense">;
+    char agility<name = "Agility">;
+    char evasion<name = "Evasion">;
+    char accuracy<name = "Accuracy">;
+    char luck<name = "Luck">;
+}status_change_8;
+
+typedef struct{
+    int hp<name = "HP">;
+    int mp<name = "MP">;
+    char strength<name = "Strength">;
+    char defense<name = "Defense">;
+    char magic<name = "Magic">;
+    char spirit<name = "Magic Defense">;
+    char agility<name = "Agility">;
+    char evasion<name = "Evasion">;
+    char accuracy<name = "Accuracy">;
+    char luck<name = "Luck">;
+}status_change_int;
+
+typedef struct{
+    //uchar	weak_element;
+    uchar element_fire: 1<name="Fire">;
+    uchar element_cold: 1<name="Blizzard">;
+    uchar element_thunder: 1<name="Thunder">;
+    uchar element_water: 1<name="Water">;
+    uchar element_gravity: 1<name="Gravity">;
+    uchar element_holy: 1<name="Holy">;
+    uchar element_unused1: 1<name="UNUSED">;
+    uchar element_unused2: 1<name="UNUSED">;
+}element;
+
+typedef struct{
+    //uchar	special_data;
+    uchar special_auto_ability: 1;
+    uchar special_use_ability: 1;
+    uchar special_overlap_ability: 1;
+    uchar special_unused1: 1;
+    uchar special_unused2: 1;
+    uchar special_unused3: 1;
+    uchar special_unused4: 1;
+    uchar special_unused5: 1;
+}special_data;
+
+typedef struct{
+    ushort kille_machine: 1;
+    ushort kille_magic: 1;
+    ushort kille_lizard: 1;
+    ushort kille_element: 1;
+    ushort kille_dragon: 1;
+    ushort kille_devil: 1;
+    ushort kille_pudding: 1;
+    ushort kille_wolf: 1;
+    ushort kille_wing: 1;
+    ushort kille_shell: 1;
+    ushort kille_unused1: 1;
+    ushort kille_unused2: 1;
+    ushort kille_unused3: 1;
+    ushort kille_unused4: 1;
+    ushort kille_unused5: 1;
+    ushort kille_unused6: 1;
+}kille_monster;
+
+typedef struct {
+    short actor<name="Actor">;
+    FSkip(-2);
+    short FolderRef: 12<name="Folder Reference">;
+    short FolderRefpad: 4<hidden=true>;
+} actorRef <optimize=false>;
+
+typedef struct {
+    uchar	hp_up[3];
+	uchar	mp_up[3];
+	uchar	str_up[5];
+	uchar	vit_up[5];
+	uchar	mag_up[5];
+	uchar	spirit_up[5];
+	uchar	dex_up[5];
+	uchar	avoid_up[5];
+	uchar	hit_up[5];
+	uchar	luck_up[5];
+}stat_grow;
+
+typedef struct {
+    uint com_cursor_exist: 1;
+    uint com_cursor_enemy: 1;
+    uint com_cursor_target: 2;
+    uint com_cursor_move: 1;
+    uint com_cursor_reverse: 1;
+    uint com_cursor_death: 1;
+    uint com_cursor_all: 1;
+    uint com_cursor_use_right: 1;
+    uint com_cursor_use_left: 1;
+    uint com_cursor_far: 1;
+    uint com_unused11: 1;
+    uint com_unused12: 1;
+    uint com_unused13: 1;
+    uint com_unused14: 1;
+    uint com_unused15: 1;
+    uint com_unused16: 1;
+    uint com_unused17: 1;
+    uint com_unused18: 1;
+    uint com_unused19: 1;
+    uint com_unused20: 1;
+    uint com_unused21: 1;
+    uint com_unused22: 1;
+    uint com_unused23: 1;
+    uint com_unused24: 1;
+    uint com_unused25: 1;
+    uint com_unused26: 1;
+    uint com_unused27: 1;
+    uint com_unused28: 1;
+    uint com_unused29: 1;
+    uint com_unused30: 1;
+    uint com_unused31: 1;
+}com_cursor;
+
+typedef struct {
+    uint com_use_menu: 1;
+    uint com_battlecom: 1;
+    uint com_show_name: 1;
+    uint com_hit_check: 3;
+    uint com_hit_brain: 1;
+    uint com_eff_reflec: 1;
+    uint com_eff_drain: 1;
+    uint com_eff_steal: 1;
+    uint com_hit_effect_change: 1;
+    uint com_dancing: 1;
+    uint com_order_move_1: 1;
+    uint com_order_move_2: 1;
+    uint com_random_target: 1;
+    uint com_link_silent: 1;
+    uint com_link_chrdata: 1;
+    uint com_kill_myself: 1;
+    uint com_ignore_alive: 1;
+    uint com_slot_action: 1;
+    uint com_prepare_action: 1;
+    uint com_magic_effect: 1;
+    uint com_neck_taroff: 1;
+    uint com_vanish_cursor: 1;
+    uint com_share: 1;
+    uint com_music_half: 1;
+    uint com_wairo: 1;
+    uint com_escape_flag: 1;
+    uint com_dark_flag: 1;
+    uint com_confuse_use: 1;
+    uint com_non_damage: 1;
+    uint com_non_damage_perfect: 1;
+}com_exp_data;
+
+typedef struct {
+    ushort com_win_param: 1;
+    ushort com_win_type: 2;
+    ushort com_unused: 13;
+}com_sub_window;
+
+typedef struct {
+    uint com_dmg_type: 2;
+    uint com_dmg_critical: 1;
+    uint com_dmg_attack_critical: 1;
+    uint com_dmg_recover: 1;
+    uint com_dmg_stat_recover: 1;
+    uint com_dmg_under_9999: 1;
+    uint com_dmg_over_9999: 1;
+    uint com_dmg_steal_gill: 1;
+}com_dmg_data;

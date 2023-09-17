@@ -1,0 +1,72 @@
+//------------------------------------------------
+//--- 010 Editor Binary Template
+//
+//      File: monster.bin (FFX2)
+//   Authors: HeartlessSeph
+//   Version: 1.0
+//  Category: English
+//------------------------------------------------
+#include "common/btl_structs.bt"
+#include "common/common.bt"
+#include "common/ability_names.bt"
+
+typedef struct {
+    namepointer	name(strings)<name=string_name>;
+    namepointer	help(strings)<name=string_name>;
+    struct Stats{
+        uint32 hp_max<name="HP">;
+        uint32 mp_max<name="MP">;
+        ubyte level<name="Level">;
+        ubyte str<name="Strength">;
+        ubyte vit<name="Defense">;
+        ubyte mag<name="Magic">;
+        ubyte spirit<name="Magic Defense">;
+        ubyte dex<name="Agility">;
+        ubyte hit<name="Accuracy">;
+        ubyte avoid<name="Evasion">;
+        ubyte luck<name="Luck">;
+        ubyte thinking_time;
+        ushort special;
+        element abs_element<name="Absorb Element">;
+        element inv_element<name="Negate Element">;
+        element half_element<name="Halve Element">;
+        element weak_element<name="Weak to Element">;
+        def_statuses def_status<name="Defend Status Effects">;
+        auto_statuses auto_status<name="Auto Status Effects">;
+        stat_per2 status_time<name="Status Times">;
+    }stats<name="Monster Stats">;
+    Ability_Name waza[16]<name="Ability",format=hex>;
+    ushort basaku<format=hex, comment="Not sure what this is">;
+    actorRef mon_model<name="Model">;
+    actorRef mon_motion<name="Animations">;
+    actorRef monster_sound<name="Sounds">;
+    ushort oversoul;
+    ushort monster_type;
+    struct BattleRewards{
+        int32 exp<name="EXP Given">;
+        int32 gill<name="Gil Given">;
+        int32 steal_gill<name="Pilfer Gil Amt">;
+        ushort get_ap<name="AP Given">;
+        ushort drop_item[4];
+        ushort steal_item[4];
+        ushort bribery_item[4];
+    }battlerewards<name="Battle Rewards">;
+    ubyte def_zantetu;
+    ubyte reserve1;
+    uint reserve2;
+}monster_stats;
+
+
+
+struct File{
+    generic_header header<name="Header">;
+    local int strings<hidden=true> = header.string_start + header.struct_start;
+    local int x<hidden=true> = 0;
+    struct MonsterData{
+        for (x = 0; x <= header.num_structs; x++)
+        monster_stats mon_stats<name=name.string_name,comment=help.string_name>;
+    }monsterdata<name="Monster Data">;
+
+    FSeek(strings);
+    stringdata StringData;
+}file<name="Monster Stats", bgcolor=cLtRed>;

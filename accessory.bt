@@ -1,0 +1,51 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: FFX2 Accessory.bin
+//   Authors: HeartlessSeph
+//   Version: 1.0
+//  Category: English
+//------------------------------------------------
+#include "common/btl_structs.bt"
+#include "common/common.bt"
+#include "common/ability_names.bt"
+
+
+typedef struct
+{
+    struct Accessory_Data{
+        namepointer	name(strings)<name=string_name>;
+        namepointer	help(strings)<name=string_name>;
+	    uchar	ext_data;
+	    uchar	equip;
+	    uchar	user;
+	    uchar	icon<name="Icon">;
+	    uchar	seq;
+	    uchar	reserve;
+        status_change up_status;
+        Ability_Name ability[4]<format=hex,name="Abilities">;
+	    uint	price<name="Price">;
+    }accessory_data<name="Base Accessory Data">;
+    struct Creature_Accessory_Data{
+        namepointer	monhelp(strings)<name=string_name>;
+        Ability_Name monability[4]<format=hex,name="Creature Abilities">;
+        ushort unkmondata[2];
+        ushort unkmondata_2[6];
+        struct Feeding_Data{
+            uchar feed_unk;
+            uchar num_to_feed<name="Number to Feed">;
+            Ability_Name abi_teach<format=hex, name="Taught Ability">;
+            status_change_int feed_up_status<name="Stat Modifiers">;
+        }feeding_data<name="Feed Data">;
+    }creature_accessory_data<name="Creature Accessory Data">;
+}	btl_accessory;
+
+struct File{
+    generic_header header<name="Header">;
+    local int strings<hidden=true> = header.string_start + header.struct_start;
+    local int x<hidden=true> = 0;
+    struct AccessoryData{
+        for (x = 0; x <= header.num_structs; x++)
+        btl_accessory btlacc<name=accessory_data.name.string_name,comment=accessory_data.help.string_name>;
+    }accessorydata<name="Accessories">;
+}file<name="Accessory Data", bgcolor=cLtRed>;

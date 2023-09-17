@@ -1,0 +1,196 @@
+//------------------------------------------------
+//--- 010 Editor Binary Template
+//
+//      File: _mxxx.bin (FFX2)
+//   Authors: HeartlessSeph
+//   Version: 1.0
+//  Category: English
+//------------------------------------------------
+#include "common/btl_structs.bt"
+#include "common/ability_names.bt"
+
+
+typedef struct {
+    ushort ability_learn_type;
+    Ability_Name ability_id<format=hex>;
+}mon_ability;
+
+typedef struct {
+    uint32 name<name="Name",comment="Don't know if this is used or not.">;
+    uint32 help<name="Help",comment="Don't know if this is used or not.">;
+    struct Stats{
+        uint32 hp_max<name="HP">;
+        uint32 mp_max<name="MP">;
+        ubyte level<name="Level">;
+        ubyte str<name="Strength">;
+        ubyte vit<name="Defense">;
+        ubyte mag<name="Magic">;
+        ubyte spirit<name="Magic Defense">;
+        ubyte dex<name="Agility">;
+        ubyte hit<name="Accuracy">;
+        ubyte avoid<name="Evasion">;
+        ubyte luck<name="Luck">;
+        ubyte thinking_time;
+        ushort special;
+        element abs_element<name="Absorb Element">;
+        element inv_element<name="Negate Element">;
+        element half_element<name="Halve Element">;
+        element weak_element<name="Weak to Element">;
+        def_statuses def_status<name="Defend Status Effects">;
+        auto_statuses auto_status<name="Auto Status Effects">;
+        stat_per2 status_time<name="Status Times">;
+    }stats<name="Monster Stats">;
+    Ability_Name waza[16]<name="Ability",format=hex>;
+    ushort basaku<format=hex, comment="Not sure what this is">;
+    actorRef mon_model<name="Model">;
+    actorRef mon_motion<name="Animations">;
+    actorRef monster_sound<name="Sounds">;
+    ushort oversoul;
+    ushort monster_type;
+    struct BattleRewards{
+        int32 exp<name="EXP Given">;
+        int32 gill<name="Gil Given">;
+        int32 steal_gill<name="Pilfer Gil Amt">;
+        ushort get_ap<name="AP Given">;
+        ushort drop_item[4];
+        ushort steal_item[4];
+        ushort bribery_item[4];
+    }battlerewards<name="Battle Rewards">;
+    ubyte def_zantetu;
+    ubyte reserve1;
+    ushort reserve2;
+}monster_stats;
+
+typedef struct {
+    uint32 num_sections;
+    uint32 monScript_Addr;
+    uint32 unk_Addr;
+    uint32 unk2_Addr;
+    uint32 stats_Addr;
+    uint32 oversoul_Addr;
+    uint32 unk3_Addr;
+    uint32 creature_Addr;
+    uint32 unk4_Addr;
+    uint32 filesize;
+}mon_header<name="Header">;
+
+typedef struct{
+    local int start = FTell();
+    uint scriptCodeLength;
+    uint map_start;
+    uint creatorTagAddress;
+    uint event_name_start;
+    uint jumpsEndAddress;
+    ushort amountOfType2or3Scripts;
+    ushort amountOfType4Scripts;
+    ushort mainScriptIndex;
+    ushort unknown1A;
+    ushort amountOfType5Scripts;
+    ushort zoneBytes;
+    uint eventDataOffset;
+    uint unknown24;
+    uint area_offset;
+    uint other_offset;
+    uint scriptCodeStartAddress;
+    ushort numberOfScripts;
+    ushort numberOfScriptsWithoutSubroutines;
+    //Data taken from Karifean's FFX Data parser.
+    //This section shouldn't be edited without a full parser.
+}mon_script<name="Monster Script Section">;
+
+typedef struct{
+    uint unk;
+}section2<name="Section 2">;
+
+typedef struct{
+    uint32 unk;
+}section3<name="Section 3">;
+
+typedef struct{
+    monster_stats Regular_Stats;
+}mon_stats<name="Enemy Regular Stats">;
+
+typedef struct{
+    monster_stats Oversoul_Stats;
+}mon_oversoul<name="Enemy Oversoul Stats">;
+
+typedef struct{
+    uint32 unk;
+}section6<name="Section 6">;
+
+typedef struct{
+    local enum<ubyte> sizes {None, Small,  Medium, Large};
+    sizes creature_size<name="Creature Size">;
+    uchar ability_types_learnable<comment="04 means that the creature can learn all abilities">;
+	uchar monster_scale<name="Creature Scale",comment="This is the actual creatures size. The weapons use this to shrink them.">;
+    uchar   unk_data[3]<comment="Related to EXP. Probably a growth chart like the rest.">;
+    stat_grow mon_growth<name="Monster Stat Growth">;
+    mon_ability l_ability[4]<name="Learnable Abilities">;
+    mon_ability a_ability[4]<name="Learnable Auto-Abilities">;
+    ushort unkval1;
+    ushort unkval2;
+    uint32 unk17;
+    uint32 unk18;
+    uint32 unk19;
+    ushort creature_icon;
+    ushort unk20;
+    uint32 unk21;
+    uint32 unk22;
+    uint32 unk23;
+    struct CreatureWeapons{
+        actorRef weapon1_model;
+        ushort weapon1_position;
+        actorRef weapon2_model;
+        ushort weapon2_position;
+    }creatureweapons<name="Creature Weapons">;
+    uint32 unk24;
+    uint unk25;
+    Ability_Name creature_death_ability<name="Creature Death Ability", format=hex>;
+    struct BattleAnimRestricts{
+        ushort bit1: 1<name="Attack Ability Animation", comment="Example: Tidus' overdrive charge animation.">;
+        ushort bit2: 1;
+        ushort bit3: 1<name="Item Animation">;
+        ushort bit4: 1<name="Spellcast Animation">;
+        ushort bit5: 1;
+        ushort bit6: 1;
+        ushort bit7: 1;
+        ushort bit8: 1;
+        ushort bit9: 1;
+        ushort bit10: 1;
+        ushort bit11: 1;
+        ushort bit12: 1;
+        ushort bit13: 1;
+        ushort bit14: 1;
+        ushort bit15: 1;
+        ushort bit16: 1<name="Character Movement during attacks">;
+    }battleanimrestricts<name="Battle Animation Restrictions", comment="If anything here is 1, it means the monster won't have an animation for it in-battle.">;
+    Ability_Name default_attack<name="Default Attack?",format=hex>;
+    ushort unk27;
+}creature_data<name="Captured Monster Stats & Abilities">;
+
+typedef struct{
+    uint32 unk0;
+    actorRef creature_model<comment="Doesn't seem to affect anything from what I can tell">;
+    ushort unk1;
+    ushort unk2;
+}section8<name="Section 8", comment="Seems to have to do with the camera during battles">;
+
+struct File{
+    mon_header header;
+    FSeek(header.monScript_Addr);
+    mon_script monster_script;
+    FSeek(header.unk_Addr);
+    section2 Section2;
+    FSeek(header.unk2_Addr);
+    section3 Section3;
+    FSeek(header.stats_Addr);
+    mon_stats mons_stats;
+    FSeek(header.oversoul_Addr);
+    mon_oversoul oversoul_stats;
+    FSeek(header.unk3_Addr);
+    section6 Section6;
+    FSeek(header.creature_Addr);
+    creature_data creature_stats;
+    FSeek(header.unk4_Addr);
+    section8 Section8;
+}file<name="File", bgcolor=cLtRed>;

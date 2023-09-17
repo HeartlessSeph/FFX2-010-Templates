@@ -1,0 +1,48 @@
+//------------------------------------------------
+//--- 010 Editor Binary Template
+//
+//      File: a_ability.bin (FFX2)
+//   Authors: HeartlessSeph
+//   Version: 1.0
+//  Category: English
+//------------------------------------------------
+#include "common/btl_structs.bt"
+#include "common/common.bt"
+
+typedef struct {//Struct source based on OG FFX-2. Reserve data may be in use now.
+    namepointer	name(strings)<name=string_name>;
+    namepointer	help(strings)<name=string_name>;
+	ushort	reserve[4];
+	ushort	count_down_type<format=hex>;
+	char	count_down<comment="This is a percentage.">;
+	uchar	reserve2;
+    special_data special_dat<name="Special Data">;
+    element atc_element<name="Attack Element">;
+    element abs_element<name="Absorb Element">;
+    element inv_element<name="Negate Element">;
+    element half_element<name="Halve Element">;
+    element weak_element<name="Weak to Element">;
+    status_change up_status<name="Stat Changes">;
+    atc_statuses atc_status<name="Attack Status Effects">;
+    def_statuses def_status<name="Defend Status Effects">;
+    auto_statuses auto_status<name="Auto Status Effects">;
+    stat_per2 status_time<name="Status Times">;
+    ability_type Ability_type<name="Ability Types">;
+	uchar	icon;
+	uchar	reserve3;
+	ushort	reserve4;
+	ushort	ap;
+} autocommand;
+
+struct File{
+    generic_header header<name="Header">;
+    local int strings<hidden=true> = header.string_start + header.struct_start;
+    local int x<hidden=true> = 0;
+    struct AutoData{
+        for (x = 0; x <= header.num_structs; x++)
+        autocommand acommand<name=name.string_name,comment=help.string_name>;
+    }autodata<name="Auto Ability Data">;
+
+    FSeek(strings);
+    stringdata StringData;
+}file<name= "Auto Abilities", bgcolor=cLtRed>;
